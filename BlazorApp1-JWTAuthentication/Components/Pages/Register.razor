@@ -1,0 +1,51 @@
+﻿@page "/register"
+@rendermode InteractiveServer
+
+<h3>Login</h3>
+
+<EditForm Model="@register" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label>Name</label>
+        <InputText @bind-Value="register.Name"></InputText>
+    </div>
+    <div class="form-group">
+        <label>Email Address</label>
+        <InputText @bind-Value="register.Email"></InputText>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <InputText @bind-Value="register.Password"></InputText>
+    </div>
+    
+    <div class="form-group">
+        <label>Confirm Password</label>
+        <InputText @bind-Value="register.ConfirmPassword"></InputText>
+    </div>
+
+    <button type="submit">Register</button>
+
+    <ValidationSummary />
+
+</EditForm>
+
+
+@code {
+    public RegisterDTO register = new();
+
+    async Task Submit()
+    {
+        var response = await accountService.RegisterAsync(register);
+        if (!response.Flag)
+        {
+            await js.InvokeVoidAsync("alert", response.Message);
+            return;
+        }
+
+        await js.InvokeVoidAsync("alert", response.Message);
+        register = new();
+        return;
+    }
+
+}
