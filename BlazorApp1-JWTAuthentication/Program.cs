@@ -53,7 +53,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 
-var baseAddress = builder.Configuration["ASPNETCORE_URLS"].Split(";").First() ?? "http://localhost:5000";
+var baseAddress = builder.Configuration["ASPNETCORE_URLS"]?.Split(";").First() ?? "http://localhost:5000";
  
 builder.Services.AddHttpClient("DefaultClient", client =>
 {
